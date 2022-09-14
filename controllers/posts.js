@@ -1,5 +1,3 @@
-
-
 exports.getPosts = (req, res) => {
-    res.send('Posts Home');
+    res.render('posts');
 };

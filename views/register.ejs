@@ -11,8 +11,8 @@
 
 <body>
     <h1>Register</h1>
-    <div>
-        <form action="/register" method="POST">
+    <div class="register-container">
+        <form action="/register-user" method="POST" id="register-form">
             <label for="first-name">First Name</label>
             <input type="text" id="first-name" name="firstName">
 
@@ -22,8 +22,24 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email">
 
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+
+            <label for="is-admin">Admin</label>
+            <input type="checkbox" id="is-admin" name="isAdmin" value="true">
+            <input type="hidden" id="is-admin-hidden" name="isAdmin" value="false">
+
             <button type="submit">Register</button>
         </form>
     </div>
+    <script>
+        const registerForm = document.querySelector('#register-form');
+
+        registerForm.addEventListener('submit', () => {
+            if (document.getElementById("is-admin").checked) {
+            document.getElementById('is-admin-hidden').disabled = true;
+            }
+        });
+    </script>
 </body>
 </html>
