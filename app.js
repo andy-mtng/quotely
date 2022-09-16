@@ -66,8 +66,11 @@ app.use(express.static(path.join(__dirname, 'public'))); // Lets you serve stati
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function(req, res, next) { // Allows us to access the currently logged in user in the views as "currentUser"
+    res.locals.currentUser = req.user;
+    next();
+});
 app.use(bodyParser.urlencoded({extended: false}));
-// app.use(express.urlencoded({ extended: false }));
 
 
 // Routes

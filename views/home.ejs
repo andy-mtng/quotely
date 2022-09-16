@@ -10,5 +10,8 @@
 <body>
     <%- include('partials/navbar.ejs') %>
     <h1>Home Page</h1>
+    <% if (currentUser) { %>
+        <h1>Welcome <%= currentUser.firstName %></h1>
+    <% } %>
 </body>
 </html>

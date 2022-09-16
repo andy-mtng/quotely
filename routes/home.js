@@ -9,8 +9,10 @@ router.get('/login', homeController.getLogin);
 
 router.post('/login', passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/error"
+    failureRedirect: "/login"
 }));
+
+router.get("/log-out", homeController.getLogout);
 
 router.get('/register', homeController.getRegister);
 

@@ -3,12 +3,22 @@ const passport = require("passport");
 
 
 exports.getHome = (req, res) => {
+    console.log(res.locals.currentUser);
     res.render('home');
 };
 
 exports.getLogin = (req, res) => {
     res.render('login');
 };
+
+exports.getLogout = (req, res, next) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+}
 
 exports.getRegister = (req, res) => {
     res.render('register');
