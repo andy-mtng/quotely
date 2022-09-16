@@ -1,0 +1,1 @@
+- Make a dotenv for the mongodb password (for practice)
