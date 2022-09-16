@@ -5,6 +5,7 @@ const path = require('path');
 const postRoutes = require('./routes/posts');
 const homeRoutes = require('./routes/home');
 const User = require('./models/user');
+const bcrypt = require('bcryptjs');
 
 // Libraries needed for user authentication
 const session = require("express-session");
@@ -31,20 +32,22 @@ app.set('view engine', 'ejs');
 passport.use(
     new LocalStrategy({usernameField: 'email', passwordField: 'password'}, (email, password, done) => {
       User.findOne({ email: email }, (err, user) => {
-        console.log('Local Strategy', user, email);
         if (err) { 
-            console.log('Local strategy error.');
             return done(err);
         }
         if (!user) {
             console.log('No user found local strategy');
             return done(null, false, { message: "Incorrect email" });
         }
-        if (user.password !== password) {
-            console.log('Local strategy incorrect password');
-            return done(null, false, { message: "Incorrect password" });
-        }
-        console.log('Successful local strategy.');
+        bcrypt.compare(password, user.password, (err, res) => {
+            if (res) {
+              // Passwords match! log user in
+              return done(null, user)
+            } else {
+              // Passwords do not match!
+              return done(null, false, { message: "Incorrect password" })
+            }
+        });
         return done(null, user);
       });
     })

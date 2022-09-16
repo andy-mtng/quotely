@@ -1,6 +1,5 @@
 const User = require('../models/user');
-const passport = require("passport");
-
+const bcrypt = require('bcryptjs');
 
 exports.getHome = (req, res) => {
     console.log(res.locals.currentUser);
@@ -26,20 +25,26 @@ exports.getRegister = (req, res) => {
 
 exports.registerPost = (req, res) => {
     const userInfo = req.body;
-    
-    const newUser = new User({
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        email: userInfo.email,
-        password: userInfo.password,
-        isMember: false,
-        isAdmin: (userInfo.isAdmin === "true")
-    });
 
-    newUser.save((err) => {
-        if (err) {console.log(err)}
-        console.log('User saved to database.');
-    });
+    // Use bcrypt to convert the plaintext password into a secure oen
+    bcrypt.hash(userInfo.password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const newUser = new User({
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                email: userInfo.email,
+                password: hashedPassword,
+                isMember: false,
+                isAdmin: (userInfo.isAdmin === "true")
+            });
 
-    res.redirect('/');
+            newUser.save((err) => {
+                if (err) {console.log(err)}
+                console.log('User saved to database.');
+            });
+            res.redirect('/');
+        }
+    });
 };
