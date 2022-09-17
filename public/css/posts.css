@@ -1,0 +1,10 @@
+.all-posts-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 32px;
+}
+
+.post-container {
+    border: 1px solid black;
+}

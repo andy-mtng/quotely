@@ -1,1 +1,1 @@
-- Make a dotenv for the mongodb password (for practice)
+- Make a dotenv for the mongodb password and username (for practice) and same with the port

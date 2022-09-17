@@ -2,7 +2,6 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 exports.getHome = (req, res) => {
-    console.log(res.locals.currentUser);
     res.render('home');
 };
 

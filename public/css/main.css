@@ -68,3 +68,7 @@ table {
 	text-decoration: none;
 	color: inherit;
 }
+
+textarea {
+	resize: none;
+}

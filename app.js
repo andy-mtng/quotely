@@ -31,12 +31,11 @@ app.set('view engine', 'ejs');
 // You need to set up the options usernameField and passwordField to let local strat know you are using an email instead of password
 passport.use(
     new LocalStrategy({usernameField: 'email', passwordField: 'password'}, (email, password, done) => {
-      User.findOne({ email: email }, (err, user) => {
+        User.findOne({ email: email }, (err, user) => {
         if (err) { 
             return done(err);
         }
         if (!user) {
-            console.log('No user found local strategy');
             return done(null, false, { message: "Incorrect email" });
         }
         bcrypt.compare(password, user.password, (err, res) => {
@@ -48,7 +47,6 @@ passport.use(
               return done(null, false, { message: "Incorrect password" })
             }
         });
-        return done(null, user);
       });
     })
 );
