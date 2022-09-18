@@ -71,6 +71,10 @@ app.use(function(req, res, next) { // Allows us to access the currently logged i
     res.locals.currentUser = req.user;
     next();
 });
+// app.use((req, res, next) => { 
+//     req.session.user = req.user;
+//     next();
+// });
 app.use(bodyParser.urlencoded({extended: false}));
 
 

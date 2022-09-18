@@ -38,15 +38,29 @@ exports.postCreatePost = (req, res) => {
 }
 
 exports.getEditPost = (req, res) => {
-    res.render('editPost');
-}
-
-exports.editPost = (req, res) => {
     Post.findById(req.params.id)
         .then((post) => {
-            console.log(post);
+            res.render('editPost', {post: post});
+        })
+        .catch((err) => {
+            console.log('err');
+            res.redirect('/');
+        })
+}
+
+exports.postEditPost = (req, res) => {
+    const editedInfo = req.body;
+    Post.findById(req.params.id)
+        .then((post) => {
+            post.title = editedInfo.title;
+            post.content = editedInfo.content;
+            post.timeStamp = new Date();
+            post.author = req.user._id;
+
+            post.save();
         })
         .catch((err) => {
             console.log(err);
         });
+        res.redirect('/posts');
 }
