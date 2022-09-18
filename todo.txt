@@ -1,1 +1,8 @@
 - Make a dotenv for the mongodb password and username (for practice) and same with the port
+- Get a pop up modal to pop up if you are not logged in
+
+- Sanitization
+
+- Admin dashboard and privledges
+- Add all posts user makes to their schema
+- Add profile 

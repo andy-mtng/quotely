@@ -10,18 +10,32 @@
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
-    <h1>Posts</h1>
-    <div class="all-posts-container">
-        <% for (post of allPosts) { %>
-            <div class="post-container">
-                <h1> <%= post.title %> </h1>
-                <p> <%= post.content %> </p>
-                <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
-                <p> <%= post.timeStamp %> </p>
-                <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
-                <div><a href="/">Delete</a></div>
+    <div class="<%= currentUser ? "" : "blurred-background"%>">
+        <% if (!currentUser) { %>
+            <div class="pop-up">
+                <h1>You must log in to view the posts.</h1>
             </div>
         <% } %>
+        <h1>Posts</h1>
+        <div class="all-posts-container">
+            <% for (post of allPosts) { %>
+                <div class="post-container">
+                    <h1> <%= post.title %> </h1>
+                    <p> <%= post.content %> </p>
+                    <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
+                    <p> <%= post.timeStamp %> </p>
+                    <% if (currentUser && (currentUser._id === post.author._id)) { %>
+                        <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
+                        <div>
+                            <!-- <a href="/posts/<%= post._id %>/delete">Delete</a> -->
+                            <form action="/posts/<%= post._id %>/delete" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
     </div>
 </body>
 </html>

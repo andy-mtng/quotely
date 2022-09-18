@@ -72,3 +72,18 @@ table {
 textarea {
 	resize: none;
 }
+
+.blurred-background {
+	filter: blur(8px);
+ 	-webkit-filter: blur(8px);
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	position: absolute;
+	z-index: -1
+}
+
+.pop-up {
+	position: absolute;
+	z-index: 1;
+}
