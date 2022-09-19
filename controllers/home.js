@@ -43,7 +43,7 @@ exports.registerPost = (req, res) => {
                 if (err) {console.log(err)}
                 console.log('User saved to database.');
             });
-            res.redirect('/');
+            res.redirect('/login');
         }
     });
 };

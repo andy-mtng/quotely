@@ -25,7 +25,7 @@
                     <p> <%= post.content %> </p>
                     <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
                     <p> <%= post.timeStamp %> </p>
-                    <% if (currentUser && (currentUser._id === post.author._id)) { %>
+                    <% if (currentUser && ((currentUser._id).equals(post.author._id))) { %>
                         <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
                         <div>
                             <form action="/posts/<%= post._id %>/delete" method="POST">

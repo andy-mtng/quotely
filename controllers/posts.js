@@ -32,7 +32,7 @@ exports.postCreatePost = (req, res) => {
             console.log(err);
         } else {
             console.log('Post saved to database');
-            res.redirect('/');
+            res.redirect('/posts');
         }
     });
 }
