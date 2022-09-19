@@ -10,12 +10,13 @@
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
+    <% if (!currentUser) { %>
+        <div class="pop-up">
+            <h1>You must <a href="/login">log in</a> to view the posts.</h1>
+        </div>
+    <% } %>
+
     <div class="<%= currentUser ? "" : "blurred-background"%>">
-        <% if (!currentUser) { %>
-            <div class="pop-up">
-                <h1>You must log in to view the posts.</h1>
-            </div>
-        <% } %>
         <h1>Posts</h1>
         <div class="all-posts-container">
             <% for (post of allPosts) { %>
@@ -27,7 +28,6 @@
                     <% if (currentUser && (currentUser._id === post.author._id)) { %>
                         <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
                         <div>
-                            <!-- <a href="/posts/<%= post._id %>/delete">Delete</a> -->
                             <form action="/posts/<%= post._id %>/delete" method="POST">
                                 <button type="submit">Delete</button>
                             </form>
