@@ -74,7 +74,7 @@ textarea {
 }
 
 .blurred-background {
-	filter: blur(4px);
+	filter: blur(3px);
 	height: 100%;
 	width: 100%;
 	position: absolute;

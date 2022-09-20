@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const { body, validationResult } = require("express-validator");
 
 exports.getPosts = (req, res) => {
     Post.find()
@@ -16,9 +17,18 @@ exports.getCreatePosts = (req, res) => {
     res.render('createPost');
 }
 
-exports.postCreatePost = (req, res) => {
+exports.postCreatePost = [
+body('title').isLength({min: 1}),
+body('content').isLength({min: 1}),
+(req, res) => {
     const postContent = req.body;
     const user = req.user;
+    const errors = validationResult(req);
+
+    console.log(errors);
+    if (!errors.isEmpty()) {
+        return res.render('createPost', {errors: errors.array()});
+    }
 
     const post = new Post({
         title: postContent.title,
@@ -35,7 +45,7 @@ exports.postCreatePost = (req, res) => {
             res.redirect('/posts');
         }
     });
-}
+}];
 
 exports.getEditPost = (req, res) => {
     Post.findById(req.params.id)

@@ -1,7 +1,29 @@
 - Make a dotenv for the mongodb password and username (for practice) and same with the port
-- Get a pop up modal to pop up if you are not logged in
+- sanitize and validate the form fields
+- add a confirmPassword field to your sign-up form and then validate it using a custom validator
+    
+const { body } = require('express-validator');
 
-- Sanitization
+app.post(
+  '/user',
+  body('password').isLength({ min: 5 }),
+  body('passwordConfirmation').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Password confirmation does not match password');
+    }
+
+    // Indicates the success of this synchronous custom validator
+    return true;
+  }),
+  (req, res) => {
+    // Handle the request
+  },
+);
+
+
+
+
+
 
 - Admin dashboard and privledges
 - Add all posts user makes to their schema

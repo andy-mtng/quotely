@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const { body, validationResult } = require("express-validator");
 
 exports.getHome = (req, res) => {
     res.render('home');
