@@ -21,5 +21,12 @@
             <button type="submit">Login</button>
         </form>
     </div>
+    <% if (typeof(errors) !== 'undefined') { %>
+        <div class="error-container">
+            <% for (error of errors) { %>
+                <p> <%= error.msg %> </p>
+            <% } %>
+        </div>
+    <% } %>
 </body>
 </html>

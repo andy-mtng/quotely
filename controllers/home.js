@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require("express-validator");
+const passport = require('passport');
 
 exports.getHome = (req, res) => {
     res.render('home');
@@ -18,6 +19,32 @@ exports.getLogout = (req, res, next) => {
       res.redirect("/");
     });
 }
+
+exports.postLogin = [
+body('email')
+    .trim()
+    .isLength({min: 1})
+    .withMessage('Email is required.')
+    .isEmail()
+    .withMessage('Please enter a valid email.')
+    .escape(),
+body('password')
+    .trim()
+    .isLength({min: 1})
+    .withMessage('Password is required.')
+    .escape(),
+(req, res) => {
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        return res.render('login', {errors: errors.array()});
+    } else {
+        passport.authenticate("local", {
+            successRedirect: "/",
+            failureRedirect: "/login"
+        })(req,res);
+    }
+}];
 
 exports.getRegister = (req, res) => {
     res.render('register');
