@@ -20,9 +20,11 @@
         </form>
     </div>
     <% if (typeof(errors) !== 'undefined') { %>
-        <% for (error of errors) { %>
-            <p> <%= error.msg %> </p>
-        <% } %>
+        <div class="error-container">
+            <% for (error of errors) { %>
+                <p> <%= error.msg %> </p>
+            <% } %>
+        </div>
     <% } %>
 </body>
 </html>

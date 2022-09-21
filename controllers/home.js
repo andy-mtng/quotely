@@ -23,7 +23,46 @@ exports.getRegister = (req, res) => {
     res.render('register');
 };
 
-exports.registerPost = (req, res) => {
+exports.registerPost = [
+body('firstName', 'First name cannot be empty.')
+    .trim()
+    .isLength({min: 1})
+    .escape(),
+body('lastName', 'Last name cannot be empty.')
+    .trim()
+    .isLength({min: 1})
+    .escape(),
+body('email')
+    .trim()
+    .normalizeEmail()  // Lowercase the domain part of the email
+    .isLength({min: 1})
+    .withMessage('Email cannot be empty.')
+    .isEmail()
+    .withMessage('You must enter a valid email.')
+    .escape()
+    .custom(value => {  // Custom validator to make sure email is not already in use
+        return User.findOne({email: value}).then(user => {
+            if (user) {
+                return Promise.reject('E-mail already in use');
+            }
+        })
+    }),
+body('password')
+    .trim()
+    .isLength({min: 3})
+    .withMessage('Password must be at least 3 characters.')
+    .escape(),
+body('confirmPassword')
+    .trim()
+    .escape()
+    .custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Password confirmation does not match password.');
+        }
+        // Indicates the success of this synchronous custom validator
+        return true;
+        }),
+(req, res) => {
     const userInfo = req.body;
 
     // Use bcrypt to convert the plaintext password into a secure oen
@@ -31,6 +70,12 @@ exports.registerPost = (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render('register', {errors: errors.array()});
+            }
+
             const newUser = new User({
                 firstName: userInfo.firstName,
                 lastName: userInfo.lastName,
@@ -47,4 +92,4 @@ exports.registerPost = (req, res) => {
             res.redirect('/login');
         }
     });
-};
+}];

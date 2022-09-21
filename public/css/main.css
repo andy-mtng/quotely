@@ -96,3 +96,9 @@ textarea {
 	margin: auto;
 	padding: 16px;
 }
+
+.error-container {
+	background-color: red;
+	color: white;
+	width: 25%;
+}

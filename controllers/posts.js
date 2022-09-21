@@ -18,14 +18,13 @@ exports.getCreatePosts = (req, res) => {
 }
 
 exports.postCreatePost = [
-body('title').isLength({min: 1}),
-body('content').isLength({min: 1}),
+body('title', 'Title cannot be empty.').trim().isLength({min: 1}).escape(),
+body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
 (req, res) => {
     const postContent = req.body;
     const user = req.user;
     const errors = validationResult(req);
 
-    console.log(errors);
     if (!errors.isEmpty()) {
         return res.render('createPost', {errors: errors.array()});
     }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <%- include('partials/navbar.ejs') %>
@@ -25,6 +25,9 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password">
 
+            <label for="confirm-password">Password</label>
+            <input type="password" id="confirm-password" name="confirmPassword">
+
             <label for="is-admin">Admin</label>
             <input type="checkbox" id="is-admin" name="isAdmin" value="true">
             <input type="hidden" id="is-admin-hidden" name="isAdmin" value="false">
@@ -32,6 +35,13 @@
             <button type="submit">Register</button>
         </form>
     </div>
+    <% if (typeof(errors) !== 'undefined') { %>
+        <div class="error-container">
+            <% for (error of errors) { %>
+                <p> <%= error.msg %> </p>
+            <% } %>
+        </div>
+    <% } %>
     <script>
         const registerForm = document.querySelector('#register-form');
 
