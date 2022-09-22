@@ -1,3 +1,5 @@
+require('dotenv').config()
+console.log(process.env)
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -11,12 +13,11 @@ const bcrypt = require('bcryptjs');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-// const passportLocalMongoose = require('passport-local-mongoose');
 
 const app = express();
 
 // Connect to mongoDB
-const mongoDB = 'mongodb+srv://dante:dante@cluster0.cpcqfyc.mongodb.net/?retryWrites=true&w=majority'
+const mongoDB = process.env.MONGO_DB_CONNECTION_STRING;
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error.'));
@@ -64,7 +65,7 @@ passport.deserializeUser(function(id, done) {
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Lets you serve static css files (located in public directory)
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) { // Allows us to access the currently logged in user in the views as "currentUser"
@@ -83,6 +84,6 @@ app.use('/posts', postRoutes);
 app.use('/', homeRoutes);
 
 
-app.listen(5000, () => {
-    console.log('Listening on port 5000.');
+app.listen(process.env.PORT || 5000, () => {
+    console.log('Server listening.');
 });
