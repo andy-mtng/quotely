@@ -1,5 +1,4 @@
 require('dotenv').config()
-console.log(process.env)
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -72,10 +71,6 @@ app.use(function(req, res, next) { // Allows us to access the currently logged i
     res.locals.currentUser = req.user;
     next();
 });
-// app.use((req, res, next) => { 
-//     req.session.user = req.user;
-//     next();
-// });
 app.use(bodyParser.urlencoded({extended: false}));
 
 

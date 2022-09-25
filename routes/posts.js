@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const postsController = require('../controllers/posts');
+const isLoggedIn = require('../utils/isLoggedIn');
 
 router.get('/', postsController.getPosts);
 
-router.get('/create', postsController.getCreatePosts);
+router.get('/create', isLoggedIn, postsController.getCreatePosts);
 
 router.post('/create', postsController.postCreatePost);
 
