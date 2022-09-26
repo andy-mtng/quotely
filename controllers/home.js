@@ -120,3 +120,7 @@ body('confirmPassword')
         }
     });
 }];
+
+exports.getProfile = (req, res) => {
+    res.render('Profile');
+} 

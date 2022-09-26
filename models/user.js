@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { _, postSchema} = require('./post');
 
 const UserSchema = Schema({
     firstName: {type: String, required: true},
@@ -7,7 +8,8 @@ const UserSchema = Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     isMember: {type: Boolean, required: true}, 
-    isAdmin: {type: Boolean, required: true}
+    isAdmin: {type: Boolean, required: true},
+    posts: [postSchema]
 });
 
 module.exports = mongoose.model('user', UserSchema);

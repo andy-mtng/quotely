@@ -8,4 +8,7 @@ const PostSchema = Schema({
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true}
 });
 
-module.exports = mongoose.model('post', PostSchema);
+module.exports = {
+    postModel: mongoose.model('post', PostSchema),
+    postSchema: PostSchema
+}

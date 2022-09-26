@@ -1,5 +1,4 @@
 - Display error messages from passportjs local strat    
-- Protect routes
 - Better css overall
 - Better information/error message pop-ups
 

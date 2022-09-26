@@ -2,7 +2,7 @@ const Post = require('../models/post');
 const { body, validationResult } = require("express-validator");
 
 exports.getPosts = (req, res) => {
-    Post.find()
+    Post.postModel.find()
         .populate('author')
         .exec((err, allPosts) => {
             if (err) {
@@ -29,7 +29,7 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
         return res.render('createPost', {errors: errors.array()});
     }
 
-    const post = new Post({
+    const post = new Post.postModel({
         title: postContent.title,
         content: postContent.content,
         timeStamp: new Date(),
@@ -47,7 +47,7 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
 }];
 
 exports.getEditPost = (req, res) => {
-    Post.findById(req.params.id)
+    Post.postModel.findById(req.params.id)
         .then((post) => {
             res.render('editPost', {post: post});
         })
@@ -58,7 +58,7 @@ exports.getEditPost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
-    Post.deleteOne({ _id: req.params.id })
+    Post.postModel.deleteOne({ _id: req.params.id })
         .then(() => {
             res.redirect('/posts');
         })
@@ -70,7 +70,7 @@ exports.deletePost = (req, res) => {
 
 exports.postEditPost = (req, res) => {
     const editedInfo = req.body;
-    Post.findById(req.params.id)
+    Post.postModel.findById(req.params.id)
         .then((post) => {
             post.title = editedInfo.title;
             post.content = editedInfo.content;
