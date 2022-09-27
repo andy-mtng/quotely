@@ -122,5 +122,17 @@ body('confirmPassword')
 }];
 
 exports.getProfile = (req, res) => {
-    res.render('Profile');
+    const user = req.user;
+    User.findById(user._id)
+        .then(user => {
+            res.render('Profile', {
+                firstName: user.firstName, 
+                lastName: user.lastName, 
+                posts: user.posts
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/');
+        });
 } 

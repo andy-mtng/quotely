@@ -35,13 +35,20 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
         timeStamp: new Date(),
         author: user._id
     });
-
     post.save((err) => {
         if (err) {
             console.log(err);
         } else {
-            console.log('Post saved to database');
-            res.redirect('/posts');
+            user.posts.push(post);
+            user.save((err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Post saved to database');
+                    res.redirect('/posts');
+                }
+            });
+
         }
     });
 }];

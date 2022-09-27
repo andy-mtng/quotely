@@ -10,5 +10,10 @@
 <body>
     <%- include('partials/navbar.ejs') %>
     <h1>Profile Page</h1>
+    <p> <%= firstName %> <%= lastName %> </p>
+    <% for (let post of posts) { %> 
+        <p> <%= post.title %> </p>
+        <p> <%= post.content %> </p>
+    <% } %> 
 </body>
 </html>

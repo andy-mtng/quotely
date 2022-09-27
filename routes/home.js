@@ -15,6 +15,6 @@ router.get('/register', homeController.getRegister);
 
 router.post('/register', homeController.registerPost);
 
-router.get('/profile', homeController.getProfile);
+router.get('/profile', isLoggedIn, homeController.getProfile);
 
 module.exports = router;
