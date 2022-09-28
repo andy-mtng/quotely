@@ -47,10 +47,16 @@ table {
 	border-spacing: 0;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+	font-family: "Open Sans", sans-serif;
+}
+
 .nav-bar {
     background-color: black;
     color: white;
-    padding: 24px 32px; 
+    padding: 24px 54px;
 }
 
 .nav-items {
@@ -69,33 +75,50 @@ table {
 	color: inherit;
 }
 
+.main-title {
+	font-size: 56px;
+	font-weight: bold;
+}
+
+.home-page-hero {
+	margin-left: 54px;
+	margin-top: 80px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.main-title-subtext {
+	font-size: 24px;
+}
+
+.home-page-hero-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: black;
+	text-decoration: none;
+	color: white;
+	width: 90px;
+	height: 32px;
+	padding: 8px 16px;
+	border-radius: 32px;
+	/* Added so element does not move on hover */
+	border: 2px solid transparent;
+}
+
+.home-page-hero-button:hover {
+	background-color: white;
+	text-decoration: none;
+	color: black;
+	border: 2px solid black;
+	font-weight: bold;
+}
+
 textarea {
 	resize: none;
 }
 
-.blurred-background {
-	filter: blur(3px);
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	z-index: -1; 
-	pointer-events: none;
-}
-
-.pop-up {
-	color: white;
-	background-color: black;
-	position: absolute;
-	z-index: 1;
-	width: 256px;
-	height: 300px;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	padding: 16px;
-}
 
 .error-container {
 	background-color: red;

@@ -12,19 +12,23 @@
     <%- include('partials/navbar.ejs') %>
     <% if (!currentUser) { %>
         <div class="pop-up">
-            <h1>You must <a href="/login">log in</a> to view the posts.</h1>
+            <h1>Quotely 💬</h1>
+            <p class="pop-up-subtext">Find Out What Everyone is Talking About</p>
+            <p>You must <a href="/login">log in</a> to view the posts.</p>
         </div>
     <% } %>
 
     <div class="<%= currentUser ? "" : "blurred-background"%>">
-        <h1>Posts</h1>
+        <h1 class="page-title">Posts</h1>
         <div class="all-posts-container">
             <% for (post of allPosts) { %>
                 <div class="post-container">
                     <h1> <%= post.title %> </h1>
                     <p> <%= post.content %> </p>
-                    <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
-                    <p> <%= post.timeStamp %> </p>
+                    <div>
+                        <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
+                        <p> <%= post.timeStamp %> </p>
+                    </div>
                     <% if (currentUser && ((currentUser._id).equals(post.author._id))) { %>
                         <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
                         <div>

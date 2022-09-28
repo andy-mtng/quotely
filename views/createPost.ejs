@@ -5,18 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post</title>
-    <link rel="stylesheet" href="/css/main.css">    
+    <link rel="stylesheet" href="/css/main.css">   
+    <link rel="stylesheet" href="/css/form.css">     
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
-    <div>
-        <form action="/posts/create" method="POST">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title">
+    <div class="form-container">
+        <h1 class="form-title">Create a Post</h1>
+        <form action="/posts/create" method="POST" class="form">
+            <div class="form-item">
+                <label for="title"></label>
+                <input type="text" id="title" name="title" placeholder="Title">
+            </div>
 
-            <label for="content"></label>
-            <textarea name="content" id="content" cols="30" rows="10"></textarea>
-            <button type="submit">Submit</button>
+            <div class="form-item">
+                <label for="content"></label>
+                <textarea name="content" id="content" cols="30" rows="10">Content</textarea>
+            </div>
+            <button type="submit" class="form-button">Submit</button>
         </form>
     </div>
     <% if (typeof(errors) !== 'undefined') { %>

@@ -1,6 +1,7 @@
 - Display error messages from passportjs local strat    
 - Better css overall
 - Better information/error message pop-ups
+- Add character limit to posts
 
 - Admin dashboard and privledges
 - Add all posts user makes to their schema

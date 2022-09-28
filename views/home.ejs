@@ -9,9 +9,10 @@
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
-    <h1>Home Page</h1>
-    <% if (currentUser) { %>
-        <h1>Welcome <%= currentUser.firstName %></h1>
-    <% } %>
+    <div class="home-page-hero">
+        <h1 class="main-title">Welcome to Quotely</h1>
+        <p class="main-title-subtext">Speak-up about what's important to you.</p>
+        <a href="/login" class="home-page-hero-button">Get Started</a>
+    </div>
 </body>
 </html>
