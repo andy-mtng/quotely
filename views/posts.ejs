@@ -23,11 +23,11 @@
         <div class="all-posts-container">
             <% for (post of allPosts) { %>
                 <div class="post-container">
-                    <h1> <%= post.title %> </h1>
+                    <h1 class="post-title"> <%= post.title %> </h1>
                     <p> <%= post.content %> </p>
                     <div>
                         <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
-                        <p> <%= post.timeStamp %> </p>
+                        <p> <%= post.formattedDate %> </p>
                     </div>
                     <% if (currentUser && ((currentUser._id).equals(post.author._id))) { %>
                         <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
