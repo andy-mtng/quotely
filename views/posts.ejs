@@ -23,20 +23,28 @@
         <div class="all-posts-container">
             <% for (post of allPosts) { %>
                 <div class="post-container">
-                    <h1 class="post-title"> <%= post.title %> </h1>
-                    <p> <%= post.content %> </p>
-                    <div>
-                        <p> <%= post.author.firstName %> <%= post.author.lastName %></p>
-                        <p> <%= post.formattedDate %> </p>
-                    </div>
-                    <% if (currentUser && ((currentUser._id).equals(post.author._id))) { %>
-                        <div><a href="/posts/<%= post._id %>/edit">Edit</a></div>
-                        <div>
-                            <form action="/posts/<%= post._id %>/delete" method="POST">
-                                <button type="submit">Delete</button>
-                            </form>
+                    <div class="post-header">
+                        <h1 class="post-title"> <%= post.title %> </h1>
+                        <div class="post-author-date">
+                            <p class="post-author"> <%= post.author.firstName %> <%= post.author.lastName %></p>
+                            <p class="post-date"> <%= post.formattedDate %> </p>
                         </div>
-                    <% } %>
+                    </div>
+
+                    <p class="post-content"> <%= post.content %> </p>
+
+                    <div class="post-footer">
+                        <% if (currentUser && ((currentUser._id).equals(post.author._id))) { %>
+                            <div class="post-buttons">
+                                <a class="post-edit-button" href="/posts/<%= post._id %>/edit">Edit</a>
+                                <div>
+                                    <form action="/posts/<%= post._id %>/delete" method="POST">
+                                        <button class="post-delete-button" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
             <% } %>
         </div>
