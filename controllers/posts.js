@@ -70,6 +70,7 @@ exports.deletePost = (req, res) => {
 
     Post.postModel.deleteOne({ _id: req.params.id })
         .then(() => {
+            // Remove the post subdocument from the user posts array
             user.posts.id(req.params.id).remove();
             user.save((err) => {
                 if (err) console.log(err);
@@ -84,14 +85,41 @@ exports.deletePost = (req, res) => {
 
 exports.postEditPost = (req, res) => {
     const editedInfo = req.body;
+    const user = req.user;
+
+    // User.findById(req.params.id)
+    //     .then((user) => {
+    //         user.posts.id(req.params.id).title = editedInfo.title;
+    //         user.posts.id(req.params.id).content = editedInfo.content;
+    //         user.posts.id(req.params.id).timeStamp = new Date();
+    //         user.posts.id(req.params.id).author = req.user._id;
+
+    //         user.save();
+    //         res.redirect('/posts');
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //         res.redirect('/posts');
+    //     });
+    
+
+
     Post.postModel.findById(req.params.id)
         .then((post) => {
+            // Update the post with edited information
             post.title = editedInfo.title;
             post.content = editedInfo.content;
             post.timeStamp = new Date();
             post.author = req.user._id;
 
+            // Update subdocument in user posts array with edited information
+            user.posts.id(req.params.id).title = editedInfo.title;
+            user.posts.id(req.params.id).content = editedInfo.content;
+            user.posts.id(req.params.id).timeStamp = new Date();
+            user.posts.id(req.params.id).author = req.user._id;
+
             post.save();
+            user.save();
         })
         .catch((err) => {
             console.log(err);
