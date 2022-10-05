@@ -125,3 +125,10 @@ textarea {
 	color: white;
 	width: 25%;
 }
+
+.page-title {
+	text-align: center;
+	margin-top: 2rem;
+	font-weight: bold;
+	font-size: 48px;
+}

@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const { body, validationResult } = require("express-validator");
+const User = require('../models/user');
 
 exports.getPosts = (req, res) => {
     Post.postModel.find()
@@ -65,12 +66,18 @@ exports.getEditPost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
+    const user = req.user;
+
     Post.postModel.deleteOne({ _id: req.params.id })
         .then(() => {
-            res.redirect('/posts');
+            user.posts.id(req.params.id).remove();
+            user.save((err) => {
+                if (err) console.log(err);
+                res.redirect('/posts');
+              });
         })
         .catch((err) => {
-            console.log('err');
+            console.log(err);
             res.redirect('/posts');
         });
 }

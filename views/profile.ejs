@@ -5,15 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
+    <link rel="stylesheet" href="/css/profile.css">    
+    <link rel="stylesheet" href="/css/posts.css">    
     <title>Profile</title>
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
-    <h1>Profile Page</h1>
-    <p> <%= firstName %> <%= lastName %> </p>
-    <% for (let post of posts) { %> 
-        <p> <%= post.title %> </p>
-        <p> <%= post.content %> </p>
-    <% } %> 
+    <h1 class="page-title">Profile Page</h1>
+    <p class="profile-name"> <%= firstName %> <%= lastName %> </p>
+    <div class="all-posts-container">
+        <% for (let post of posts) { %>
+            <div class="post-container">
+                <p> <%= post.title %> </p>
+                <p> <%= post.content %> </p>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

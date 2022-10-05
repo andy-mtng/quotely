@@ -11,7 +11,6 @@ const PostSchema = Schema({
 
 PostSchema.virtual('formattedDate').get(function() {
     return format(this.timeStamp, '| MMM. d  p');
-    // format(new Date(2017, 10, 6), 'MMM')
 });
 
 module.exports = {
