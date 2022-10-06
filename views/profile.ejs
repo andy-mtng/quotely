@@ -18,6 +18,17 @@
             <div class="post-container">
                 <p class="post-title"> <%= post.title %> </p>
                 <p class="post-content"> <%= post.content %> </p>
+
+                <div class="post-footer">
+                    <div class="post-buttons">
+                        <a class="post-edit-button" href="/posts/<%= post._id %>/edit">Edit</a>
+                        <div>
+                            <form action="/posts/<%= post._id %>/delete" method="POST">
+                                <button class="post-delete-button" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         <% } %>
     </div>

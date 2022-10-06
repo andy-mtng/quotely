@@ -45,9 +45,9 @@
         </div>
         <p class="form-small-text">Already have an account? <a class="form-link" href="/login">Login</a></p>
     </div>
-    <% if (typeof(errors) !== 'undefined') { %>
+    <% if (typeof(validationErrors) !== 'undefined') { %>
         <div class="error-container">
-            <% for (error of errors) { %>
+            <% for (error of validationErrors) { %>
                 <p> <%= error.msg %> </p>
             <% } %>
         </div>

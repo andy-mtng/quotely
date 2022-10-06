@@ -121,9 +121,14 @@ textarea {
 
 
 .error-container {
-	background-color: red;
+	width: 50%;
+  	margin: 0 auto;
+	text-align: center;
+	background-color: rgb(227, 88, 88);
 	color: white;
 	width: 25%;
+	border-radius: 8px;
+	padding: 16px;
 }
 
 .page-title {

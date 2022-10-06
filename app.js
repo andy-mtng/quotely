@@ -6,6 +6,7 @@ const path = require('path');
 const postRoutes = require('./routes/posts');
 const homeRoutes = require('./routes/home');
 const User = require('./models/user');
+const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
 
 // Libraries needed for user authentication
@@ -36,7 +37,8 @@ passport.use(
             return done(err);
         }
         if (!user) {
-            return done(null, false, { message: "Incorrect email" });
+            return done(null, false, { message: "Incorrect email." });
+            // return res.status(401).render('login', {errors: "Incorrect email."});
         }
         bcrypt.compare(password, user.password, (err, res) => {
             if (res) {
@@ -44,7 +46,7 @@ passport.use(
               return done(null, user)
             } else {
               // Passwords do not match!
-              return done(null, false, { message: "Incorrect password" })
+              return done(null, false, { message: "Incorrect password." })
             }
         });
       });
@@ -71,6 +73,7 @@ app.use(function(req, res, next) { // Allows us to access the currently logged i
     res.locals.currentUser = req.user;
     next();
 });
+app.use(flash()); 
 app.use(bodyParser.urlencoded({extended: false}));
 
 

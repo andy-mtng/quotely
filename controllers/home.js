@@ -4,11 +4,19 @@ const { body, validationResult } = require("express-validator");
 const passport = require('passport');
 
 exports.getHome = (req, res) => {
-    res.render('home');
+    // If a user is logged in, redirect to posts instead of the home page
+    if (req.user) {
+        res.redirect('/posts');
+    } else {
+        res.render('home');
+    }
 };
 
 exports.getLogin = (req, res) => {
-    res.render('login');
+    // console.log('Console Log', req.flash('error'));
+    // console.log('Type', typeof req.flash('error'));
+    // console.log('Length', req.flash('error').length);
+    res.render('login', {message: req.flash('error')});
 };
 
 exports.getLogout = (req, res, next) => {
@@ -37,9 +45,11 @@ body('password')
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
-        return res.render('login', {errors: errors.array()});
+        console.log(errors);
+        return res.render('login', {message: null, validationErrors: errors.array()});
     } else {
         passport.authenticate("local", {
+            failureFlash: true,
             successRedirect: "/",
             failureRedirect: "/login"
         })(req,res);
@@ -92,7 +102,7 @@ body('confirmPassword')
 (req, res) => {
     const userInfo = req.body;
 
-    // Use bcrypt to convert the plaintext password into a secure oen
+    // Use bcrypt to convert the plaintext password into a secure one
     bcrypt.hash(userInfo.password, 10, (err, hashedPassword) => {
         if (err) {
             console.log(err);
@@ -100,7 +110,7 @@ body('confirmPassword')
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                return res.render('register', {errors: errors.array()});
+                return res.render('register', {validationErrors: errors.array()});
             }
 
             const newUser = new User({

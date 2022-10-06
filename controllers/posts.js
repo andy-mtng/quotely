@@ -87,23 +87,6 @@ exports.postEditPost = (req, res) => {
     const editedInfo = req.body;
     const user = req.user;
 
-    // User.findById(req.params.id)
-    //     .then((user) => {
-    //         user.posts.id(req.params.id).title = editedInfo.title;
-    //         user.posts.id(req.params.id).content = editedInfo.content;
-    //         user.posts.id(req.params.id).timeStamp = new Date();
-    //         user.posts.id(req.params.id).author = req.user._id;
-
-    //         user.save();
-    //         res.redirect('/posts');
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //         res.redirect('/posts');
-    //     });
-    
-
-
     Post.postModel.findById(req.params.id)
         .then((post) => {
             // Update the post with edited information
