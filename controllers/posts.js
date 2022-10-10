@@ -11,13 +11,13 @@ exports.getPosts = (req, res, next) => {
                 error.httpStatusCode = 500;
                 return next(error);
             } else {
-                res.render('posts', {allPosts: allPosts});
+                res.status(200).render('posts', {allPosts: allPosts});
             }
         });
 }
 
 exports.getCreatePosts = (req, res, next) => {
-    res.render('createPost');
+    res.status(200).render('createPost');
 }
 
 exports.postCreatePost = [
@@ -29,7 +29,7 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.render('createPost', {errors: errors.array()});
+        return res.status(422).render('createPost', {errors: errors.array()});
     }
 
     const post = new Post.postModel({
@@ -52,7 +52,7 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
                     return next(error);
                 } else {
                     console.log('Post saved to database');
-                    res.redirect('/posts');
+                    res.status(201).redirect('/posts');
                 }
             });
 
@@ -63,13 +63,12 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
 exports.getEditPost = (req, res, next) => {
     Post.postModel.findById(req.params.id)
         .then((post) => {
-            res.render('editPost', {post: post});
+            res.status(200).render('editPost', {post: post});
         })
         .catch((err) => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error);
-            res.redirect('/');
         });
 }
 
@@ -86,14 +85,13 @@ exports.deletePost = (req, res, next) => {
                     error.httpStatusCode = 500;
                     return next(error);
                 }
-                res.redirect('/posts');
+                res.status(302).redirect('/posts');
               });
         })
         .catch((err) => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error);
-            res.redirect('/posts');
         });
 }
 
@@ -117,11 +115,12 @@ exports.postEditPost = (req, res, next) => {
 
             post.save();
             user.save();
+
+            res.status(200).redirect('/posts');
         })
         .catch((err) => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error);
         });
-        res.redirect('/posts');
 }

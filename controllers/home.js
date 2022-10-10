@@ -6,14 +6,14 @@ const passport = require('passport');
 exports.getHome = (req, res, next) => {
     // If a user is logged in, redirect to posts instead of the home page
     if (req.user) {
-        res.redirect('/posts');
+        res.status(302).redirect('/posts');
     } else {
-        res.render('home');
+        res.status(200).render('home');
     }
 };
 
 exports.getLogin = (req, res, next) => {
-    res.render('login', {message: req.flash('error')});
+    res.status(200).render('login', {message: req.flash('error')});
 };
 
 exports.getLogout = (req, res, next) => {
@@ -21,7 +21,7 @@ exports.getLogout = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.redirect("/");
+      res.status(302).redirect("/");
     });
 }
 
