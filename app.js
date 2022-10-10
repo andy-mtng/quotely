@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const postRoutes = require('./routes/posts');
 const homeRoutes = require('./routes/home');
+const errorController = require('./controllers/errorController');
 const User = require('./models/user');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -80,7 +81,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Routes
 app.use('/posts', postRoutes);
 app.use('/', homeRoutes);
+app.use(errorController.getError404);
 
+app.use((error, req, res, next) => {
+    res.status(500).render('error500');
+});
 
 app.listen(process.env.PORT || 5000, () => {
     console.log('Server listening.');

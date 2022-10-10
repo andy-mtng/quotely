@@ -1,14 +1,15 @@
-- Display error messages from passportjs local strat  
-        - Read: https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize#:~:text=Passport%20uses%20serializeUser%20function%20to,retrieve%20user%20data%20from%20session.
+- Read: https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize#:~:text=Passport%20uses%20serializeUser%20function%20to,retrieve%20user%20data%20from%20session.
 - Add character limit to posts
 - Add functionallity to send emails 
         - For registered users and let them change their password
         - For users to verify their account with their email
+        - For users to delete their account
 - Add better error handling
         - Better information/error message pop-ups
         - Potentially use req.flash: https://stackoverflow.com/questions/23160743/how-to-send-flash-messages-in-express-4-0
 - Use multer for profile picture images
 - Use a library to allow users to select a background colours to their post
+- Add pagination to the posts
 
 
 Low Priority

@@ -2,26 +2,28 @@ const Post = require('../models/post');
 const { body, validationResult } = require("express-validator");
 const User = require('../models/user');
 
-exports.getPosts = (req, res) => {
+exports.getPosts = (req, res, next) => {
     Post.postModel.find()
         .populate('author')
         .exec((err, allPosts) => {
             if (err) {
-                console.log(err);
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
             } else {
                 res.render('posts', {allPosts: allPosts});
             }
         });
 }
 
-exports.getCreatePosts = (req, res) => {
+exports.getCreatePosts = (req, res, next) => {
     res.render('createPost');
 }
 
 exports.postCreatePost = [
 body('title', 'Title cannot be empty.').trim().isLength({min: 1}).escape(),
 body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
-(req, res) => {
+(req, res, next) => {
     const postContent = req.body;
     const user = req.user;
     const errors = validationResult(req);
@@ -38,12 +40,16 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
     });
     post.save((err) => {
         if (err) {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         } else {
             user.posts.push(post);
             user.save((err) => {
                 if (err) {
-                    console.log(err);
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
                 } else {
                     console.log('Post saved to database');
                     res.redirect('/posts');
@@ -54,18 +60,20 @@ body('content', 'Content cannot be empty.').trim().isLength({min: 1}).escape(),
     });
 }];
 
-exports.getEditPost = (req, res) => {
+exports.getEditPost = (req, res, next) => {
     Post.postModel.findById(req.params.id)
         .then((post) => {
             res.render('editPost', {post: post});
         })
         .catch((err) => {
-            console.log('err');
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
             res.redirect('/');
         });
 }
 
-exports.deletePost = (req, res) => {
+exports.deletePost = (req, res, next) => {
     const user = req.user;
 
     Post.postModel.deleteOne({ _id: req.params.id })
@@ -73,17 +81,23 @@ exports.deletePost = (req, res) => {
             // Remove the post subdocument from the user posts array
             user.posts.id(req.params.id).remove();
             user.save((err) => {
-                if (err) console.log(err);
+                if (err) {
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
+                }
                 res.redirect('/posts');
               });
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
             res.redirect('/posts');
         });
 }
 
-exports.postEditPost = (req, res) => {
+exports.postEditPost = (req, res, next) => {
     const editedInfo = req.body;
     const user = req.user;
 
@@ -105,7 +119,9 @@ exports.postEditPost = (req, res) => {
             user.save();
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
         res.redirect('/posts');
 }
