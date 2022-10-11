@@ -2,6 +2,9 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require("express-validator");
 const passport = require('passport');
+const sgMail = require('@sendgrid/mail');
+const getRegistrationMessage = require('../utils/registrationMessage');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.getHome = (req, res, next) => {
     // If a user is logged in, redirect to posts instead of the home page
@@ -43,7 +46,7 @@ body('password')
     
     if (!errors.isEmpty()) {
         // console.log(errors);
-        return res.render('login', {message: null, validationErrors: errors.array()});
+        return res.status(200).render('login', {message: null, validationErrors: errors.array()});
     } else {
         passport.authenticate("local", {
             failureFlash: true,
@@ -54,7 +57,7 @@ body('password')
 }];
 
 exports.getRegister = (req, res, next) => {
-    res.render('register');
+    res.status(200).render('register');
 };
 
 exports.registerPost = [
@@ -96,7 +99,7 @@ body('confirmPassword')
         // Indicates the success of this synchronous custom validator
         return true;
         }),
-(req, res) => {
+(req, res, next) => {
     const userInfo = req.body;
 
     // Use bcrypt to convert the plaintext password into a secure one
@@ -109,7 +112,7 @@ body('confirmPassword')
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                return res.render('register', {validationErrors: errors.array()});
+                return res.status(422).render('register', {validationErrors: errors.array()});
             }
 
             const newUser = new User({
@@ -128,8 +131,19 @@ body('confirmPassword')
                     return next(error);
                 }
                 console.log('User saved to database.');
+                sgMail
+                  .send(getRegistrationMessage(userInfo.email))
+                  .then((response) => {
+                        console.log(response[0].statusCode)
+                        console.log(response[0].headers)
+                  })
+                  .catch((err) => {
+                        const error = new Error(err);
+                        error.httpStatusCode = 500;
+                        return next(error);
+                  })
             });
-            res.redirect('/login');
+            res.status(302).redirect('/login');
         }
     });
 }];
@@ -138,8 +152,7 @@ exports.getProfile = (req, res, next) => {
     const user = req.user;
     User.findById(user._id)
         .then(user => {
-            throw 'Dummy Error';
-            res.render('Profile', {
+            res.status(200).render('Profile', {
                 firstName: user.firstName, 
                 lastName: user.lastName, 
                 posts: user.posts
