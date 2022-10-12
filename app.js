@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const postRoutes = require('./routes/posts');
 const homeRoutes = require('./routes/home');
+const authRoutes = require('./routes/auth');
+
 const errorController = require('./controllers/errorController');
 const User = require('./models/user');
 const flash = require('connect-flash');
@@ -81,6 +83,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Routes
 app.use('/posts', postRoutes);
 app.use('/', homeRoutes);
+app.use('/', authRoutes);
+
 app.use(errorController.getError404);
 
 app.use((error, req, res, next) => {

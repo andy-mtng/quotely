@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+    <%- include('partials/navbar.ejs') %>
+    <div class="form-container">
+        <h1 class="form-title">Enter Your Email</h1>
+        <p class="">You will recieve a password reset message.</p>
+        <form class="form" action="/password-reset" method="POST">
+            <div class="form-item">
+                <label for="email"></label>
+                <input type="email" name="email" id="email" placeholder="Email">
+            </div>
+            <button class="form-button" type="submit">Reset Password</button>
+        </form>
+    </div>
+    
+</body>
+</html>

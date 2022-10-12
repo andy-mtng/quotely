@@ -9,6 +9,8 @@ const UserSchema = Schema({
     password: {type: String, required: true},
     isMember: {type: Boolean, required: true}, 
     isAdmin: {type: Boolean, required: true},
+    resetToken: String,
+    resetTokenExpiration: Date,
     posts: [postSchema]
 });
 
