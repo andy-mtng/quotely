@@ -4,20 +4,22 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const User = require('../models/user');
 
 exports.getPassReset = (req, res, next) => {
-        res.render('passReset');
+        res.status(200).render('passReset');
 }
 
 exports.postPassReset = (req, res, next) => {
         crypto.randomBytes(32, (err, buffer) => {
           if (err) {
-            console.log(err);
-            return res.redirect('/password-reset');
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+                return res.status(302).redirect('/password-reset');
           }
           const token = buffer.toString('hex');
           User.findOne({ email: req.body.email })
             .then(user => {
               if (!user) {
-                return res.redirect('/reset');
+                return res.status(302).redirect('/reset');
               }
               user.resetToken = token;
               user.resetTokenExpiration = Date.now() + 3600000;
@@ -32,7 +34,7 @@ exports.postPassReset = (req, res, next) => {
                                 subject: 'Password reset',
                                 html: `
                                 <p>You requested a password reset.</p>
-                                <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+                                <p>Click this <a href="http://localhost:3000/password-reset/${token}">link</a> to set a new password.</p>
                                 `
                         })
                         .then((response) => {
@@ -40,14 +42,15 @@ exports.postPassReset = (req, res, next) => {
                                 console.log(response[0].headers)
                         })
                         .catch((err) => {
-                                console.log('1');
                                 const error = new Error(err);
                                 error.httpStatusCode = 500;
                                 return next(error);
                         })
             })
             .catch(err => {
-              console.log(err);
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
             });
         });
 };      
@@ -56,10 +59,11 @@ exports.getNewPassword = (req, res, next) => {
         const token = req.params.token;
         User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
                 .then(user => {
-                        res.render('newPassword', {userId: user._id.toString(), passwordToken: token
+                        res.status(200).render('newPassword', {userId: user._id.toString(), passwordToken: token
                 });
           })
           .catch(err => {
+                console.log('Hit');
                 const error = new Error(err);
                 error.httpStatusCode = 500;
                 return next(error);              
@@ -88,10 +92,12 @@ exports.postNewPassword = (req, res, next) => {
             return resetUser.save();
           })
           .then(result => {
-            res.redirect('/login');
+            res.status(302).redirect('/login');
           })
           .catch(err => {
-            console.log(err);
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
           });
 };
       

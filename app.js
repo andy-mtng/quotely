@@ -79,7 +79,6 @@ app.use(function(req, res, next) { // Allows us to access the currently logged i
 app.use(flash()); 
 app.use(bodyParser.urlencoded({extended: false}));
 
-
 // Routes
 app.use('/posts', postRoutes);
 app.use('/', homeRoutes);

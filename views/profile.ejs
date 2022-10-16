@@ -6,13 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <link rel="stylesheet" href="/css/profile.css">    
-    <link rel="stylesheet" href="/css/posts.css">    
+    <link rel="stylesheet" href="/css/posts.css">   
+    <link rel="stylesheet" href="/css/form.css">     
     <title>Profile</title>
 </head>
 <body>
     <%- include('partials/navbar.ejs') %>
     <h1 class="page-title">Profile Page</h1>
     <p class="profile-name"> <%= firstName %> <%= lastName %> </p>
+    <img class="profile-pic" src="" alt="">
+    <div>
+        <form action="/profile-picture" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="image">New Profile Image</label>
+                <input type="file" id="image" name="image" value="" required>
+            </div>
+            <button class="form-button" type="submit">Submit</button>
+        </form>
+    </div>
+
+
     <div class="all-posts-container">
         <% for (let post of posts) { %>
             <div class="post-container">

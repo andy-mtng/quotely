@@ -11,7 +11,8 @@ const UserSchema = Schema({
     isAdmin: {type: Boolean, required: true},
     resetToken: String,
     resetTokenExpiration: Date,
-    posts: [postSchema]
+    posts: [postSchema],
+    profileImg: {data: Buffer, contentType: String}
 });
 
 module.exports = mongoose.model('user', UserSchema);

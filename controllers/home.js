@@ -164,3 +164,24 @@ exports.getProfile = (req, res, next) => {
             return next(error);
         });
 } 
+
+// exports.postProfilePicture = (req, res, next) => {
+
+//     const user = req.user;
+//     const imgData = {
+//         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+//         contentType: 'image/png'
+//     }
+
+//     user.profileImage = imgData;
+//     user.save()
+//         .then(savedUser => {
+//             if (!(savedUser === user)) {
+//                 const error = new Error(err);
+//                 error.httpStatusCode = 500;
+//                 return next(error);
+//             } else {
+//                 res.status(302).redirect('/profile');
+//             }
+//     });
+// }
