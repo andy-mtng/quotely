@@ -15,10 +15,12 @@
     <h1 class="page-title">Profile Page</h1>
     <p class="profile-name"> <%= firstName %> <%= lastName %> </p>
     <img class="profile-pic" src="" alt="">
-    <div>
-        <form action="/profile-picture" method="POST" enctype="multipart/form-data">
-            <div>
-                <label for="image">New Profile Image</label>
+    <div class="form-container">
+        <form class="form" action="/profile-picture" method="POST" enctype="multipart/form-data">
+            <h1 class="form-title">Update Profile Picture</h1>
+
+            <div class="form-item">
+                <label for="image"></label>
                 <input type="file" id="image" name="image" value="" required>
             </div>
             <button class="form-button" type="submit">Submit</button>

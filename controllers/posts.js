@@ -7,6 +7,7 @@ exports.getPosts = (req, res, next) => {
         .populate('author')
         .exec((err, allPosts) => {
             if (err) {
+                console.log('PROBLEM');
                 const error = new Error(err);
                 error.httpStatusCode = 500;
                 return next(error);
